@@ -1,5 +1,14 @@
-import React from "react";
+import PropTypes from 'prop-types';
+import css from '../Section/Section.mobule.css'
 
-const Section = () => (<h2>Please leave feedback</h2>);
+const Section = ({ title, children }) => (
+    <section>
+        <h2 className={css.title}>{title}</h2>
+      {children}
+    </section>);
+
+Section.protoType = {
+  title: PropTypes.string.isRequired,
+}
 
 export default Section;

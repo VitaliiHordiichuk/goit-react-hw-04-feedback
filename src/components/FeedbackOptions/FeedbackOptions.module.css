@@ -1,0 +1,10 @@
+.feedBack{
+    display: flex;
+    gap: 10px;
+}
+
+button{
+    padding: 3px 10px;
+    margin-bottom: 10px;
+}
+

@@ -1,17 +1,29 @@
-import React from "react";
+import shortid from 'shortid';
+import Section from '../Section/Section'
+import css from '../FeedbackOptions/FeedbackOptions.module.css'
+import PropTypes, { arrayOf } from 'prop-types';
 
-const FeedbackOptions = ({onGoodStatistics, onNeutrelStatistics, onBadStatistics}) => (
-    <>
-           <button type="button" onClick={onGoodStatistics}>
-          Good
+
+const FeedbackOptions = ({ title, options, onLeaveFeedback }) => (
+ <Section title={title}>
+    <ul className={css.feedBack}>
+      {options.map(option => (
+        <li key= {shortid.generate()}>
+          <button type="button" name={option} onClick={onLeaveFeedback}>
+          {option}
         </button>
-        <button type="button" onClick={onNeutrelStatistics}>
-          Neutrel
-        </button>
-        <button type="button" onClick={onBadStatistics}>
-          Bad
-        </button>
- </>
+      </li>
+      ))}
+    </ul>
+</Section>
 );
+
+FeedbackOptions.protoType = {
+  title: PropTypes.string.isRequired,
+  options: arrayOf(
+    PropTypes.string.isRequired),
+  onLeaveFeedback: PropTypes.func.isRequired,
+}
+
 
 export default FeedbackOptions;
