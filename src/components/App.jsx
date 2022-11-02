@@ -1,57 +1,57 @@
-import React from 'react';
-import FeedbackOptions from './FeedbackOptions/FeedbackOptions'
-import Section from './Section/Section'
-import Statistics from './Statistics/Statistics'
+import { useState } from 'react';
+import FeedbackOptions from './FeedbackOptions/FeedbackOptions';
+import Section from './Section/Section';
+import Statistics from './Statistics/Statistics';
 
-class App extends React.Component {
-  state = {
-    good: 0,
-    neutrel: 0,
-    bad: 0,
-  };
-  
-     
-  
-  countTotalFeedback = () => {
-    return (this.state.good + this.state.neutrel + this.state.bad)
+const App = () => {
+  const [good, setGood] = useState(0);
+  const [neutrel, setNeutrel] = useState(0);
+  const [bad, setBad] = useState(0);
+
+  const countTotalFeedback = () => {
+    return good + neutrel + bad;
   };
 
-  countPositiveFeedbackPercentage = () => {
- 
-    const positiv = Math.round(100 / ((this.state.good + this.state.neutrel + this.state.bad) / this.state.good)) + '%';
+  const countPositiveFeedbackPercentage = () => {
+    const positiv = Math.round(100 / ((good + neutrel + bad) / good)) + '%';
     return positiv;
-  }
- 
-  
-  onLeaveFeedback = (event) => {
-    const { name } = event.target;
-    this.setState(prevState => {
-        return {
-          [name]: prevState[name] + 1,
-      }
-    })
   };
 
-  render() {
+  const onLeaveFeedback = option => {
+    switch (option) {
+      case 'good':
+        setGood(prevState => prevState + 1);
+        break;
 
-    return (
-      <div>
-<Section title=""/>
-        <FeedbackOptions 
-          title="Please leave feedback"
-          options={['good', 'neutrel', 'bad']}
-          onLeaveFeedback={(e) => this.onLeaveFeedback(e)}
-          
-        
-        
-        />
-        <Statistics good={this.state.good}
-          neutrel={this.state.neutrel}
-          bad={this.state.bad}
-          total={this.countTotalFeedback} 
-          positivePercentage={this.countPositiveFeedbackPercentage}/>
-      </div>
-    );
-  }
-}
+      case 'neutrel':
+        setNeutrel(prevState => prevState + 1);
+        break;
+
+      case 'bad':
+        setBad(prevState => prevState + 1);
+        break;
+
+      default:
+        break;
+    }
+  };
+
+  return (
+    <div>
+      <Section title="Please leave feedback" />
+      <FeedbackOptions
+        options={['good', 'neutrel', 'bad']}
+        onLeaveFeedback={onLeaveFeedback}
+      />
+      <Statistics
+        good={good}
+        neutrel={neutrel}
+        bad={bad}
+        total={countTotalFeedback}
+        positivePercentage={countPositiveFeedbackPercentage}
+      />
+    </div>
+  );
+};
+
 export default App;
